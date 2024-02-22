@@ -19,22 +19,43 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Regristrasi Akun</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Registrasi Akun</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                    <?php
+                                            if(isset($_SESSION['login'])) {
+                                                $username = ($_POST['username']);
+                                                $password = ($_POST['password']);
+                                                $email = ($_POST['email']);
+                                                $nama_lengkap = ($_POST['nama_lengkap']);
+                                                $alamat = ($_POST['alamat']);
+                                                $level = ($_POST['level']);
+                                            
+                                                $insert = mysqli_query($koneksi, "SELECT INTO user ('username', 'password', 'email', 'nama_lengkap', 'alamat', 'level') VALUES ('$username', '$password', '$email', '$nama_lengkap', '$alamat', '$level' "); 
+                                            
+                                                if($insert){
+                                                   $_SESSION['user'] =  mysqli_fetch_array($insert);
+                                                echo '<script>alert("Masuk ke halaman, Login berhasil")location.href="login.php";</script>';
+                                             }else{
+                                                 echo '<script>alert("Login gagal")';
+
+                                            }
+                                        }
+                                        
+                                            ?>
+                                           <form>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputNamaLengkap" type="text" placeholder="Masukan Nama Lengkap" />
-                                                        <label for="inputNamaLengkap">Nama Lengkap</label>
+                                                        <input class="form-control" id="inputUsername" type="text" placeholder="Masukan Username" />
+                                                        <label for="inputUsername">Username</label>
                                                     </div>
                                                 </div>   
                                             </div>     
                                             <div class="row mb-3">        
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputUsername" type="text" placeholder="Masukan Username" />
-                                                        <label for="inputUsername">Username</label>
+                                                        <input class="form-control" id="inputPassword" type="text" placeholder="Masukan Password" />
+                                                        <label for="inputPassword">Password</label>
                                                     </div>
                                                 </div>
                                             </div>    
@@ -49,8 +70,8 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Masukan Password" />
-                                                        <label for="inputPassword">Password</label>
+                                                        <input class="form-control" id="inputNamaLengkap" type="Nama Lengkap" placeholder="Masukan Password" />
+                                                        <label for="inputNamaLengkap">Nama Lengkap</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -79,7 +100,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">&copy; Perpustakaan 2024</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;

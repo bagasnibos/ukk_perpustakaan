@@ -1,3 +1,7 @@
+<?php
+include "koneksi.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,32 +25,42 @@
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Masuk</h3></div>
                                     <div class="card-body">
                                         <form method="post">
-                                            <?php
-                                            if(!isset($_POST['login'])) {
-                                                $username = ($_POST['Username']);
-                                                $password = md5($_POST['Password']);
+                                        <?php
+                                            if(isset($_POST['login'])) {
+                                                $username = $_POST['username'];
+                                                $password = md5($_POST['password']);
                                             
-                                                $data = mysqli_query ($koneksi,"SELECT*FORM user where username='$username' and password='$password'");
-                                                $cek = mysqli_num_rows ('data');
-                                            }
-                                            ?>
+                                                $data = mysqli_query($koneksi, "SELECT*FROM user where username='$username' and password='$password'"); 
+                                                $cek = mysqli_num_rows($data);
+                                            
+                                                if($cek > 0){
+                                                   $_SESSION['data'] =  mysqli_fetch_array($data);
+                                                echo '<script>alert("Masuk ke halaman, Login berhasil"); location.href="index.php";</script>';
 
+                                                }else{
+
+                                                echo '<script>alert("Gagal, Username/password salah");</script>';
+
+                                            }
+                                        }
+                                        
+                                            ?>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputusername" type="username" name="username" placeholder="Masukan Username" />
+                                                <input class="form-control" id="inputUsername" type="username" name="username" placeholder="Masukan username" />
                                                 <label for="inputUsername">Username</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" name="Password" placeholder="Masukan Password" />
-                                                <label for="inputPassword">Password</label>
+                                                <input class="form-control" id="inputPassword" type="Password" name="Password" placeholder="Masukan password" />
+                                                <label for="inputPassword">password</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <button class="btn btn-primary" href="index.html">Login</button>
-                                                <button class="btn btn-danger" href="index.html">Register</button>
+                                                <button class="btn btn-danger" href="register.html">Register</button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                        <div class="small"><a href="register.html"> Sudah Punya Akun? Ayo Bergabung</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +75,6 @@
                         </div>
                     </div>
                 </footer>
-
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
